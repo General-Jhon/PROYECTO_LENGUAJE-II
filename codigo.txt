@@ -1,0 +1,166 @@
+from tkinter import *
+from tkinter import messagebox
+from tkinter import ttk
+from Controlador import *
+from Modelo.product import Producto
+from Modelo.proveedor import Proveedor
+from Controlador.conexion import *
+from Controlador.dao_logic import Dao
+
+class MiVentanaPrincipal:
+    def __init__(self, root):
+        self.root = root
+        self.root.title('Formulario Principal')
+        self.root.config(bg='red')
+
+        # Inicializar la conexión a la base de datos y el DAO
+        self.db = DataBase()  # Asegúrate de que DataBase esté definido en Controlador/conexion.py
+        self.dao = Dao(self.db)  # Asegúrate de que Dao esté definido en Controlador/dao_logic.py
+
+        # Controles como atributos
+        # Espacio para la barra de menú
+        self.barraMenu = Menu(self.root)
+        self.root.config(menu=self.barraMenu, width=600, height=600)
+
+        # Menús dentro de la barra de menú
+        self.cuentadanteMenu = Menu(self.barraMenu, tearoff=0)
+        self.cuentadanteMenu.add_command(label='Administrar Productos', command=self.frm_producto)
+        self.cuentadanteMenu.add_command(label='Administrar Proveedores', command=self.frm_proveedor)
+        self.cuentadanteMenu.add_command(label='Salir', command=self.salir)
+
+        self.ayudaMenu = Menu(self.barraMenu, tearoff=0)
+        self.ayudaMenu.add_command(label='Acerca de...')
+        self.ayudaMenu.add_command(label='Licencia')
+
+        # Agregar opciones a los menús
+        self.barraMenu.add_cascade(label='Productos y Proveedores', menu=self.cuentadanteMenu)
+        self.barraMenu.add_cascade(label='Ayuda', menu=self.ayudaMenu)
+
+    def frm_producto(self):
+        # Crear una nueva ventana para manejar productos
+        self.ventana_producto = Toplevel(self.root)
+        self.ventana_producto.title('Administrar Productos')
+
+        # Añadir campos y botones para administrar productos
+        Label(self.ventana_producto, text="ID Producto:").grid(row=0, column=0)
+        self.ent_id_producto = Entry(self.ventana_producto)
+        self.ent_id_producto.grid(row=0, column=1)
+
+        Label(self.ventana_producto, text="Nombre:").grid(row=1, column=0)
+        self.ent_nombre = Entry(self.ventana_producto)
+        self.ent_nombre.grid(row=1, column=1)
+
+        Label(self.ventana_producto, text="Descripción:").grid(row=2, column=0)
+        self.ent_descripcion = Entry(self.ventana_producto)
+        self.ent_descripcion.grid(row=2, column=1)
+
+        Label(self.ventana_producto, text="Precio:").grid(row=3, column=0)
+        self.ent_precio = Entry(self.ventana_producto)
+        self.ent_precio.grid(row=3, column=1)
+
+        Label(self.ventana_producto, text="Cantidad:").grid(row=4, column=0)
+        self.ent_cantidad = Entry(self.ventana_producto)
+        self.ent_cantidad.grid(row=4, column=1)
+
+        Button(self.ventana_producto, text="Guardar", command=self.guardar_producto).grid(row=5, column=0, columnspan=2)
+        Button(self.ventana_producto, text="Actualizar", command=self.actualizar_producto).grid(row=6, column=0, columnspan=2)
+        Button(self.ventana_producto, text="Eliminar", command=self.eliminar_producto).grid(row=7, column=0, columnspan=2)
+
+    def frm_proveedor(self):
+        # Crear una nueva ventana para manejar proveedores
+        self.ventana_proveedor = Toplevel(self.root)
+        self.ventana_proveedor.title('Administrar Proveedores')
+
+        # Añadir campos y botones para administrar proveedores
+        Label(self.ventana_proveedor, text="ID Proveedor:").grid(row=0, column=0)
+        self.ent_id_proveedor = Entry(self.ventana_proveedor)
+        self.ent_id_proveedor.grid(row=0, column=1)
+
+        Label(self.ventana_proveedor, text="Nombre:").grid(row=1, column=0)
+        self.ent_nombre_proveedor = Entry(self.ventana_proveedor)
+        self.ent_nombre_proveedor.grid(row=1, column=1)
+
+        Label(self.ventana_proveedor, text="Dirección:").grid(row=2, column=0)
+        self.ent_direccion = Entry(self.ventana_proveedor)
+        self.ent_direccion.grid(row=2, column=1)
+
+        Label(self.ventana_proveedor, text="Teléfono:").grid(row=3, column=0)
+        self.ent_telefono = Entry(self.ventana_proveedor)
+        self.ent_telefono.grid(row=3, column=1)
+
+        Label(self.ventana_proveedor, text="Correo:").grid(row=4, column=0)
+        self.ent_correo = Entry(self.ventana_proveedor)
+        self.ent_correo.grid(row=4, column=1)
+
+        Button(self.ventana_proveedor, text="Guardar", command=self.guardar_proveedor).grid(row=5, column=0, columnspan=2)
+        Button(self.ventana_proveedor, text="Actualizar", command=self.actualizar_proveedor).grid(row=6, column=0, columnspan=2)
+        Button(self.ventana_proveedor, text="Eliminar", command=self.eliminar_proveedor).grid(row=7, column=0, columnspan=2)
+
+    def guardar_producto(self):
+        # Implementa la lógica para guardar un producto usando `self.dao`
+        producto = Producto(
+            id_producto=self.ent_id_producto.get(),
+            nombre=self.ent_nombre.get(),
+            descripcion=self.ent_descripcion.get(),
+            precio=float(self.ent_precio.get()),
+            cantidad=int(self.ent_cantidad.get())
+        )
+        self.dao.crear_producto(producto)
+
+    def actualizar_producto(self):
+        # Implementa la lógica para actualizar un producto usando `self.dao`
+        producto = Producto(
+            id_producto=self.ent_id_producto.get(),
+            nombre=self.ent_nombre.get(),
+            descripcion=self.ent_descripcion.get(),
+            precio=float(self.ent_precio.get()),
+            cantidad=int(self.ent_cantidad.get())
+        )
+        self.dao.actualizar_producto(producto)
+        messagebox.showinfo('Actualizar Producto', 'Producto actualizado exitosamente!')
+
+    def eliminar_producto(self):
+        # Implementa la lógica para eliminar un producto usando `self.dao`
+        id_producto = self.ent_id_producto.get()
+        self.dao.eliminar_producto(id_producto)
+        messagebox.showinfo('Eliminar Producto', 'Producto eliminado exitosamente!')
+
+    def guardar_proveedor(self):
+        # Implementa la lógica para guardar un proveedor usando `self.dao`
+        proveedor = Proveedor(
+            id_proveedor=self.ent_id_proveedor.get(),
+            nombre=self.ent_nombre_proveedor.get(),
+            direccion=self.ent_direccion.get(),
+            telefono=self.ent_telefono.get(),
+            correo=self.ent_correo.get()
+        )
+        self.dao.crear_proveedor(proveedor)
+        messagebox.showinfo('Guardar Proveedor', 'Proveedor guardado exitosamente!')
+
+    def actualizar_proveedor(self):
+        # Implementa la lógica para actualizar un proveedor usando `self.dao`
+        proveedor = Proveedor(
+            id_proveedor=self.ent_id_proveedor.get(),
+            nombre=self.ent_nombre_proveedor.get(),
+            direccion=self.ent_direccion.get(),
+            telefono=self.ent_telefono.get(),
+            correo=self.ent_correo.get()
+        )
+        self.dao.actualizar_proveedor(proveedor)
+        messagebox.showinfo('Actualizar Proveedor', 'Proveedor actualizado exitosamente!')
+
+    def eliminar_proveedor(self):
+        # Implementa la lógica para eliminar un proveedor usando `self.dao`
+        id_proveedor = self.ent_id_proveedor.get()
+        self.dao.eliminar_proveedor(id_proveedor)
+        messagebox.showinfo('Eliminar Proveedor', 'Proveedor eliminado exitosamente!')
+
+    def salir(self):
+        rta = messagebox.askquestion('Salir', 'Desea salir de la aplicación?')
+        if rta == 'yes':
+            self.root.destroy()
+
+if __name__ == "__main__":
+    root = Tk()
+    app = MiVentanaPrincipal(root)
+    root.mainloop()
