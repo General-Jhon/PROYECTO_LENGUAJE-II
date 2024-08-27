@@ -22,7 +22,7 @@ class SignUp:
         
         
         #Widgets
-        self.heading=Label(self.frame,text='Crear Cuenta',fg='#57a1f8',bg='white',font=('Microsoft YaHei UI Light',23,'bold'))
+        self.heading=Label(self.frame,text='Crear Cuenta',fg='#ff0000',bg='white',font=('Microsoft YaHei UI Light',23,'bold'))
         self.heading.place(x=30,y=5)
         
         
@@ -62,13 +62,13 @@ class SignUp:
         self.frame3.place(x=25,y=247)
         
 #Boton Confirmacion
-        self.conform=Button(self.frame,width=30,pady=7,text='Registrarse',bg='#57a1f8',fg='white',border=0,command=self.signup)
+        self.conform=Button(self.frame,width=30,pady=7,text='Registrarse',bg='#ff0000',fg='white',border=0,command=self.signup)
         self.conform.place(x=35,y=280)
         self.conform.config(anchor='center')
         self.label=Label(self.frame,text='¿Ya Tienes Cuenta?',fg='black',bg='white',font=('Microsoft YaHei UI Light',9),borderwidth=0, highlightthickness=0)
         self.label.place(x=30,y=340)
         
-        self.signin=Button(self.frame,width=9,text='Iniciar Session',bg='white',cursor='hand2',fg='#57a1f8',borderwidth=0, highlightthickness=0,command=self.sign)
+        self.signin=Button(self.frame,width=9,text='Iniciar Session',bg='white',cursor='hand2',fg='#ff0000',borderwidth=0, highlightthickness=0,command=self.sign)
         self.signin.place(x=200,y=340)
         
     def signup(self):

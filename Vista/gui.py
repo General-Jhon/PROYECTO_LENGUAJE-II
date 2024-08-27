@@ -10,7 +10,7 @@ from Controlador.dao_logic import Dao
 class MiVentanaPrincipal:
     def __init__(self, root):
         self.root = root
-        self.root.geometry("925x725+300+200")
+        self.root.geometry("880x670+300+200")
         self.root.title('Formulario Principal')
         self.root.config(bg='white')
         self.root.resizable(False,False)
@@ -18,7 +18,7 @@ class MiVentanaPrincipal:
         #Imagen en Ventana
         self.img =PhotoImage(file='inventario.png')
         self.img_label=Label(self.root,image=self.img,border=0,bg='white')
-        self.img_label.place(x=0,y=50)
+        self.img_label.place(x=0,y=0)
         
         
         

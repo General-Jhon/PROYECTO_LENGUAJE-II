@@ -13,7 +13,7 @@ class Login:
         self.root.resizable(False,False)
 
         #Imagen en Ventana
-        self.img =PhotoImage(file='login1.png')
+        self.img =PhotoImage(file='gestioninventario.png')
         self.img_label=Label(self.root,image=self.img,border=0,bg='white')
         self.img_label.place(x=50,y=50)
         
@@ -23,7 +23,7 @@ class Login:
         
         
         #Widgets
-        self.heading=Label(self.frame,text='iniciar Sesion',fg='#57a1f8',bg='white',font=('Microsoft YaHei UI Light',23,'bold'),borderwidth=0, highlightthickness=0)
+        self.heading=Label(self.frame,text='iniciar Sesion',fg='#ff0000',bg='white',font=('Microsoft YaHei UI Light',23,'bold'),borderwidth=0, highlightthickness=0)
         self.heading.place(x=30,y=5)
         
         #User Entry
@@ -39,7 +39,7 @@ class Login:
         self.frame1.place(x=25,y=107)
         
         #Password Entry
-        self.code = Entry (self.frame,width=25,fg='black',border=0,bg="white",font=('Microsoft YaHei UI Light',11),borderwidth=0, highlightthickness=0)
+        self.code = Entry (self.frame,width=25,fg='black',border=0,bg="white",font=('Microsoft YaHei UI Light',11),borderwidth=0, highlightthickness=0,show='*')
         self.code.place(x=30,y=150)
         self.code.insert(0,'Contraseña')
         self.code.bind('<FocusIn>', self.on_enter_pass)
@@ -49,12 +49,12 @@ class Login:
         self.frame2.place(x=25,y=177)
         
         #-----
-        self.button=Button(self.frame,width=27,pady=7,text='Registrarse',bg='#57a1f8',fg='white',border=0,command=self.signin)
+        self.button=Button(self.frame,width=27,pady=7,text='Registrarse',bg='#ff0000',fg='white',border=0,command=self.signin)
         self.button.place(x=35,y=204)
         self.label=Label(self.frame,text='¿Aun no Tienes Cuenta?',fg='black',bg='white',font=("Arial",9))
         self.label.place(x=40,y=270)
         
-        self.sign_up=Button(self.frame,width=10,text="Registrarse",bg='white',cursor='hand2',fg='#57a1f8',font=('Arial',9),borderwidth=0, highlightthickness=0,command=self.singup_command)
+        self.sign_up=Button(self.frame,width=10,text="Registrarse",bg='white',cursor='hand2',fg='#ff0000',font=('Arial',9),borderwidth=0, highlightthickness=0,command=self.singup_command)
         self.sign_up.place(x=230,y=265)
         
         
