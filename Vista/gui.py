@@ -4,6 +4,8 @@ from tkinter import ttk
 from Controlador import *
 from Modelo.product import Producto
 from Modelo.proveedor import Proveedor
+from Modelo.cliente import Cliente
+from Modelo.orden import Orden
 from Controlador.conexion import *
 from Controlador.dao_logic import Dao
 
@@ -23,11 +25,10 @@ class MiVentanaPrincipal:
         
         
 
-        # Inicializar la conexión a la base de datos y el DAO
-        self.db = DataBase()  # Asegúrate de que DataBase esté definido en Controlador/conexion.py
-        self.dao = Dao(self.db)  # Asegúrate de que Dao esté definido en Controlador/dao_logic.py
+        # Inicializar la conexión a la base de datos
+        self.db = DataBase() 
+        self.dao = Dao(self.db)  
 
-        # Controles como atributos
         # Espacio para la barra de menú
         self.barraMenu = Menu(self.root)
         self.root.config(menu=self.barraMenu, width=600, height=600)
@@ -36,6 +37,8 @@ class MiVentanaPrincipal:
         self.cuentadanteMenu = Menu(self.barraMenu, tearoff=0)
         self.cuentadanteMenu.add_command(label='Administrar Productos', command=self.frm_producto)
         self.cuentadanteMenu.add_command(label='Administrar Proveedores', command=self.frm_proveedor)
+        self.cuentadanteMenu.add_command(label='Administrar Clientes', command=self.frm_cliente)
+        self.cuentadanteMenu.add_command(label='Administrar Órdenes', command=self.frm_orden)
         self.cuentadanteMenu.add_command(label='Salir', command=self.salir)
 
         self.ayudaMenu = Menu(self.barraMenu, tearoff=0)
@@ -45,6 +48,76 @@ class MiVentanaPrincipal:
         # Agregar opciones a los menús
         self.barraMenu.add_cascade(label='Productos y Proveedores', menu=self.cuentadanteMenu)
         self.barraMenu.add_cascade(label='Ayuda', menu=self.ayudaMenu)
+        
+    
+    def frm_cliente(self):
+        # Ventana Cliente
+        self.ventana_cliente = Toplevel(self.root)
+        self.ventana_cliente.title('Administrar Clientes')
+        self.ventana_cliente.geometry("800x600")
+
+        Label(self.ventana_cliente, text="Cédula:").grid(row=0, column=0, padx=10, pady=10)
+        self.ent_cedula = Entry(self.ventana_cliente, width=20, font=('Arial', 12))
+        self.ent_cedula.grid(row=0, column=1)
+
+        Label(self.ventana_cliente, text="Nombre:").grid(row=1, column=0, padx=10, pady=10)
+        self.ent_nombre_cliente = Entry(self.ventana_cliente, width=20, font=('Arial', 12))
+        self.ent_nombre_cliente.grid(row=1, column=1)
+
+        Label(self.ventana_cliente, text="Dirección:").grid(row=2, column=0, padx=10, pady=10)
+        self.ent_direccion_cliente = Entry(self.ventana_cliente, width=20, font=('Arial', 12))
+        self.ent_direccion_cliente.grid(row=2, column=1)
+
+        Label(self.ventana_cliente, text="Teléfono:").grid(row=3, column=0, padx=10, pady=10)
+        self.ent_telefono_cliente = Entry(self.ventana_cliente, width=20, font=('Arial', 12))
+        self.ent_telefono_cliente.grid(row=3, column=1)
+
+        Label(self.ventana_cliente, text="Correo:").grid(row=4, column=0, padx=10, pady=10)
+        self.ent_correo_cliente = Entry(self.ventana_cliente, width=20, font=('Arial', 12))
+        self.ent_correo_cliente.grid(row=4, column=1)
+
+        Button(self.ventana_cliente, font=('Arial', 12, 'bold'), bg='blue', text="Guardar", command=self.guardar_cliente).grid(row=6, column=0, pady=5)
+        Button(self.ventana_cliente, font=('Arial', 12, 'bold'), bg='orange', text="Actualizar", command=self.actualizar_cliente).grid(row=6, column=1, pady=5)
+        Button(self.ventana_cliente, font=('Arial', 12, 'bold'), bg='red', text="Eliminar", command=self.eliminar_cliente).grid(row=6, column=2, padx=10, pady=5)
+        Button(self.ventana_cliente, font=('Arial', 12, 'bold'), bg='green', text="Buscar", command=self.buscar_cliente).grid(row=7, column=1, padx=4, pady=5)
+
+    def guardar_cliente(self):
+        cliente = Cliente(
+            cedula=self.ent_cedula.get(),
+            nombre=self.ent_nombre_cliente.get(),
+            direccion=self.ent_direccion_cliente.get(),
+            telefono=self.ent_telefono_cliente.get(),
+            correo=self.ent_correo_cliente.get()
+        )
+        self.dao.crear_cliente(cliente)
+
+    def actualizar_cliente(self):
+        cliente = Cliente(
+            cedula=self.ent_cedula.get(),
+            nombre=self.ent_nombre_cliente.get(),
+            direccion=self.ent_direccion_cliente.get(),
+            telefono=self.ent_telefono_cliente.get(),
+            correo=self.ent_correo_cliente.get()
+        )
+        self.dao.actualizar_cliente(cliente)
+
+    def eliminar_cliente(self):
+        cedula = self.ent_cedula.get()
+        self.dao.eliminar_cliente(cedula)
+
+    def buscar_cliente(self):
+        cedula_cliente = self.ent_cedula.get()
+        cliente = self.dao.leer_cliente(cedula_cliente)
+    
+        if cliente:
+            self.ent_nombre_cliente.delete(0, END)
+            self.ent_nombre_cliente.insert(0, cliente.nombre)
+            self.ent_direccion_cliente.delete(0, END)
+            self.ent_direccion_cliente.insert(0, cliente.direccion)
+            self.ent_telefono_cliente.delete(0, END)
+            self.ent_telefono_cliente.insert(0, cliente.telefono)
+            self.ent_correo_cliente.delete(0, END)
+            self.ent_correo_cliente.insert(0, cliente.correo)
 
     def frm_producto(self):
         
@@ -112,6 +185,70 @@ class MiVentanaPrincipal:
         Button(self.ventana_proveedor,font=('Arial',12,'bold'),bg='blue', text="Guardar", command=self.guardar_proveedor).grid(row=6, column=0, pady=5)
         Button(self.ventana_proveedor,font=('Arial',12,'bold'),bg='orange', text="Actualizar", command=self.actualizar_proveedor).grid(row=6, column=1,pady=5)
         Button(self.ventana_proveedor,font=('Arial',12,'bold'),bg='red', text="Eliminar", command=self.eliminar_proveedor).grid(row=6, column=2,padx=10,pady=5)
+        
+        #Orden
+    def frm_orden(self):
+        self.ventana_orden = Toplevel(self.root)
+        self.ventana_orden.title('Administrar Órdenes')
+        self.ventana_orden.geometry("800x600")
+
+    # Añadir campos y botones
+        Label(self.ventana_orden, text="ID Orden:").grid(row=0, column=0, padx=10, pady=10)
+        self.ent_id_orden = Entry(self.ventana_orden, width=20, font=('Arial', 12))
+        self.ent_id_orden.grid(row=0, column=1)
+        #self.ent_id_orden.config(state='readonly')
+
+        Label(self.ventana_orden, text="Fecha:").grid(row=1, column=0, padx=10, pady=10)
+        self.ent_fecha = Entry(self.ventana_orden, width=20, font=('Arial', 12))
+        self.ent_fecha.grid(row=1, column=1)
+
+        Label(self.ventana_orden, text="Cédula Cliente:").grid(row=2, column=0, padx=10, pady=10)
+        self.ent_cedula_cliente = Entry(self.ventana_orden, width=20, font=('Arial', 12))
+        self.ent_cedula_cliente.grid(row=2, column=1)
+
+        Label(self.ventana_orden, text="Monto:").grid(row=3, column=0, padx=10, pady=10)
+        self.ent_monto = Entry(self.ventana_orden, width=20, font=('Arial', 12))
+        self.ent_monto.grid(row=3, column=1)
+
+        Button(self.ventana_orden, font=('Arial', 12, 'bold'), bg='blue', text="Guardar", command=self.guardar_orden).grid(row=5, column=0, pady=5)
+        Button(self.ventana_orden, font=('Arial', 12, 'bold'), bg='orange', text="Actualizar", command=self.actualizar_orden).grid(row=5, column=1, pady=5)
+        Button(self.ventana_orden, font=('Arial', 12, 'bold'), bg='red', text="Eliminar", command=self.eliminar_orden).grid(row=5, column=2, padx=10, pady=5)
+        Button(self.ventana_orden, font=('Arial', 12, 'bold'), bg='green', text="Buscar", command=self.buscar_orden).grid(row=5, column=3, padx=10, pady=5)
+
+    def guardar_orden(self):
+        orden = Orden(
+            id_orden=self.ent_id_orden.get(),
+            fecha=self.ent_fecha.get(),
+            cedula_cliente=self.ent_cedula_cliente.get(),
+            monto=float(self.ent_monto.get())
+    )
+        self.dao.crear_orden(orden)
+
+    def actualizar_orden(self):
+        orden = Orden(
+            id_orden=self.ent_id_orden.get(),
+            fecha=self.ent_fecha.get(),
+            cedula_cliente=self.ent_cedula_cliente.get(),
+            monto=float(self.ent_monto.get())
+    )
+        self.dao.actualizar_orden(orden)
+
+    def eliminar_orden(self):
+        id_orden = self.ent_id_orden.get()
+        self.dao.eliminar_orden(id_orden)
+
+    def buscar_orden(self):
+        id_orden = self.ent_id_orden.get()
+        orden = self.dao.leer_orden(id_orden)
+    
+        if orden:
+            self.ent_fecha.delete(0, END)
+            self.ent_fecha.insert(0, orden.fecha)
+            self.ent_cedula_cliente.delete(0, END)
+            self.ent_cedula_cliente.insert(0, orden.cedula_cliente)
+            self.ent_monto.delete(0, END)
+            self.ent_monto.insert(0, orden.monto)
+  
 
     def guardar_producto(self):
         producto = Producto(
@@ -154,8 +291,7 @@ class MiVentanaPrincipal:
             self.ent_precio.insert(0, producto.precio)
             self.ent_cantidad.delete(0, END)
             self.ent_cantidad.insert(0, producto.cantidad)
-        else:
-            messagebox.showinfo('No Encontrado', 'El producto no existe.')
+
 
 
     def guardar_proveedor(self):
@@ -183,6 +319,7 @@ class MiVentanaPrincipal:
         self.dao.eliminar_proveedor(id_proveedor)
 
     def salir(self):
+        self.root.focus_set()
         rta = messagebox.askquestion('Salir', 'Desea salir de la aplicación?')
         if rta == 'yes':
             self.root.destroy()

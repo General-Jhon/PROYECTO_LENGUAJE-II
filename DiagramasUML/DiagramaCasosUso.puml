@@ -1,0 +1,21 @@
+@startuml Inventario
+actor Usuario
+
+Usuario --> (Registrar Producto)
+Usuario --> (Actualizar Producto)
+Usuario --> (Eliminar Producto)
+Usuario --> (Buscar Producto)
+Usuario --> (Registrar Proveedor)
+Usuario --> (Actualizar Proveedor)
+Usuario --> (Eliminar Proveedor)
+Usuario --> (Buscar Proveedor)
+Usuario --> (Registrar Cliente)
+Usuario --> (Actualizar Cliente)
+Usuario --> (Eliminar Cliente)
+Usuario --> (Buscar Cliente)
+Usuario --> (Crear Orden)
+Usuario --> (Actualizar Orden)
+Usuario --> (Eliminar Orden)
+Usuario --> (Buscar Orden)
+
+@enduml

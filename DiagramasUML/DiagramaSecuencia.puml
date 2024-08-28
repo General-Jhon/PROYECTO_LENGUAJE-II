@@ -1,0 +1,7 @@
+@startuml Inventario
+actor Usuario
+Usuario -> DAO : buscar_producto_por_nombre(nombre_producto)
+DAO -> BaseDeDatos : SELECT * FROM producto WHERE nombre = nombre_producto
+BaseDeDatos --> DAO : resultado
+DAO --> Usuario : Producto (datos)
+@enduml

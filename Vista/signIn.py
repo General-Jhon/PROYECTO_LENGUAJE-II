@@ -49,7 +49,7 @@ class Login:
         self.frame2.place(x=25,y=177)
         
         #-----
-        self.button=Button(self.frame,width=27,pady=7,text='Registrarse',bg='#ff0000',fg='white',border=0,command=self.signin)
+        self.button=Button(self.frame,width=27,pady=7,text='Ingresar',bg='#ff0000',fg='white',border=0,command=self.signin)
         self.button.place(x=35,y=204)
         self.label=Label(self.frame,text='¿Aun no Tienes Cuenta?',fg='black',bg='white',font=("Arial",9))
         self.label.place(x=40,y=270)
@@ -94,11 +94,9 @@ class Login:
             messagebox.showerror("Incorrecto","Usuario o Contraseña Erroneos")
 
     def open_main_window(self):
-        # Abre la ventana principal de la aplicación
         print("Abriendo la ventana Principal")
         self.screen = Toplevel(self.root)
         self.screen.title("App")
-        #self.screen.geometry("800x600")  # Ajusta el tamaño según sea necesario
         MiVentanaPrincipal(self.screen)
         self.screen.grab_set()
         

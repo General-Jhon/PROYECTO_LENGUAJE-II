@@ -26,14 +26,13 @@ class Dao:
 
     def obtener_productos(self):
         try:
-            query = "SELECT * FROM Producto"  # Asegúrate de que el nombre de la tabla coincide
+            query = "SELECT * FROM Producto"  
             self.cursor.execute(query)
             result = self.cursor.fetchall()
             return result
         except Error as e:
             print(f"Error al obtener los productos: {e}")
 
-# Crear una instancia de la base de datos y del DAO
 db = DataBase()
 dao = Dao(db)
 productos = dao.obtener_productos()

@@ -1,0 +1,40 @@
+@startuml GestionInventario
+
+|Usuario|
+start
+:Acceder al Sistema de Inventario;
+:Seleccionar Acción (Agregar/Actualizar/Buscar/Eliminar);
+
+if (Agregar Producto?) then (Sí)
+    :Ingresar datos del producto;
+    :Validar datos;
+    if (Datos válidos?) then (Sí)
+        :Guardar datos en Base de Datos;
+        :Mostrar mensaje de éxito;
+    else (No)
+        :Mostrar mensaje de error;
+    endif
+elseif (Actualizar Producto?) then (Sí)
+    :Ingresar ID del producto;
+    :Buscar producto;
+    :Actualizar datos del producto;
+    :Guardar cambios en Base de Datos;
+    :Mostrar mensaje de éxito;
+elseif (Buscar Producto?) then (Sí)
+    :Ingresar criterio de búsqueda;
+    :Buscar producto;
+    if (Producto encontrado?) then (Sí)
+        :Mostrar detalles del producto;
+    else (No)
+        :Mostrar mensaje de producto no encontrado;
+    endif
+elseif (Eliminar Producto?) then (Sí)
+    :Ingresar ID del producto a eliminar;
+    :Eliminar producto de Base de Datos;
+    :Mostrar mensaje de éxito;
+endif
+
+:Salir del Sistema;
+stop
+
+@enduml

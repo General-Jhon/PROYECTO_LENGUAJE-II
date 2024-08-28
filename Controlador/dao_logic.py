@@ -3,6 +3,8 @@ from mysql.connector import Error
 from tkinter import messagebox
 from Modelo.product import *
 from Modelo.proveedor import *
+from Modelo.cliente import *
+from Modelo.orden import *
 
 class Dao:
     def __init__(self, database):
@@ -105,5 +107,89 @@ class Dao:
             self.cursor.execute(delete, (id_proveedor,))
             self.db_connection.commit()
             messagebox.showinfo('Eliminación', 'El proveedor ha sido eliminado...')
+        except Error as e:
+            messagebox.showerror('Error', str(e))
+            
+    #CRUD CLIENTE
+    def crear_cliente(self, cliente: Cliente):
+        val = (cliente.cedula, cliente.nombre, cliente.direccion, cliente.telefono, cliente.correo)
+        insert = 'INSERT INTO cliente (cedula, nombre, direccion, telefono, correo) VALUES (%s, %s, %s, %s, %s)'
+        try:
+            self.cursor.execute(insert, val)
+            self.db_connection.commit()
+            messagebox.showinfo('Nuevo Registro', 'El cliente ha sido almacenado...')
+        except Error as e:
+            messagebox.showerror('Error', str(e))
+
+    def leer_cliente(self, cedula):
+        query = 'SELECT * FROM cliente WHERE cedula = %s'
+        try:
+            self.cursor.execute(query, (cedula,))
+            result = self.cursor.fetchone()
+            if result:
+                return Cliente(*result)
+            else:
+                messagebox.showinfo('No Encontrado', 'El cliente no existe.')
+        except Error as e:
+            messagebox.showerror('Error', str(e))
+
+    def actualizar_cliente(self, cliente: Cliente):
+        update = 'UPDATE cliente SET nombre = %s, direccion = %s, telefono = %s, correo = %s WHERE cedula = %s'
+        val = (cliente.nombre, cliente.direccion, cliente.telefono, cliente.correo, cliente.cedula)
+        try:
+            self.cursor.execute(update, val)
+            self.db_connection.commit()
+            messagebox.showinfo('Actualización', 'El cliente ha sido actualizado...')
+        except Error as e:
+            messagebox.showerror('Error', str(e))
+
+    def eliminar_cliente(self, cedula):
+        delete = 'DELETE FROM cliente WHERE cedula = %s'
+        try:
+            self.cursor.execute(delete, (cedula,))
+            self.db_connection.commit()
+            messagebox.showinfo('Eliminación', 'El cliente ha sido eliminado...')
+        except Error as e:
+            messagebox.showerror('Error', str(e))
+            
+    #CRUD ORDEN
+    def crear_orden(self, orden: Orden):
+        val = (orden.fecha, orden.cedula_cliente, orden.monto)
+        insert = 'INSERT INTO orden (fecha, cedula_cliente, monto) VALUES (%s, %s, %s)'
+        try:
+            self.cursor.execute(insert, val)
+            self.db_connection.commit()
+            messagebox.showinfo('Nuevo Registro', 'La orden ha sido almacenada...')
+        except Error as e:
+            messagebox.showerror('Error', str(e))
+
+    def leer_orden(self, id_orden):
+        query = 'SELECT * FROM orden WHERE id_orden = %s'
+        try:
+            self.cursor.execute(query, (id_orden,))
+            result = self.cursor.fetchone()
+            if result:
+                return Orden(*result)
+            else:
+                messagebox.showinfo('No Encontrado', 'La orden no existe.')
+        except Error as e:
+            messagebox.showerror('Error', str(e))
+
+    def actualizar_orden(self, orden: Orden):
+        update = 'UPDATE orden SET fecha = %s, cedula_cliente = %s, monto = %s WHERE id_orden = %s'
+        val = (orden.fecha, orden.cedula_cliente, orden.monto, orden.id_orden)
+        try:
+            self.cursor.execute(update, val)
+            self.db_connection.commit()
+            messagebox.showinfo('Actualización', 'La orden ha sido actualizada...')
+        except Error as e:
+            messagebox.showerror('Error', str(e))
+
+    def eliminar_orden(self, id_orden):
+        delete = 'DELETE FROM orden WHERE id_orden = %s'
+        try:
+            self.cursor.execute(delete, (id_orden,))
+            self.db_connection.commit()
+            messagebox.showinfo('Eliminación', 'La orden ha sido eliminada...')
         except Error as e:
             messagebox.showerror('Error', str(e))
