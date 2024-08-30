@@ -1,4 +1,4 @@
-Como Administrador: como administrador, quiero que el area encargada pueda gestionar la creacion de cuentas a los demas usuarios.
+Como Administrador: como administrador, quiero que el area encargada pueda gestionar la creacion de cuentas a los usuarios.
 para asi tener un control y que no cualquier usuario pueda crear cuentas.
 Como Usuario : Como usuario, quiero que se pueda tener un login para restringir el acceso a el programa.
 Como Usuario : Como usuario, quiero registrar un nuevo producto para que pueda gestionarlo en el sistema.

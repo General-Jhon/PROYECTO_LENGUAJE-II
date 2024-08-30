@@ -1,21 +1,38 @@
 @startuml Inventario
+class Local{
+
+    +Nombre:string
+    +Direccion:string
+    +Telefono:string
+    +NombreAdmin:string
+}
+
+
+class Administrador{
+    -Id: int
+    -nombre_Usuario:string
+    +AgregarProducto()
+    +EliminarProducto()
+    +AgregarProveedor()
+    +EliminarProveedor()
+    +AgregarCliente()
+    +EliminarCliente()
+    +AgregarOrden()
+    +EliminarOrden()
+}
+
+
 class Producto {
     - id_producto : int
     - nombre : string
     - descripcion : string
     - precio : float
     - cantidad : int
-    + __init__(id_producto, nombre, descripcion, precio, cantidad)
     + get_id_producto() : int
-    + set_id_producto(id_producto)
     + get_nombre() : string
-    + set_nombre(nombre)
     + get_descripcion() : string
-    + set_descripcion(descripcion)
     + get_precio() : float
-    + set_precio(precio)
     + get_cantidad() : int
-    + set_cantidad(cantidad)
 }
 
 class Proveedor {
@@ -24,17 +41,11 @@ class Proveedor {
     - direccion : string
     - telefono : string
     - correo : string
-    + __init__(id_proveedor, nombre, direccion, telefono, correo)
     + get_id_proveedor() : string
-    + set_id_proveedor(id_proveedor)
     + get_nombre() : string
-    + set_nombre(nombre)
     + get_direccion() : string
-    + set_direccion(direccion)
     + get_telefono() : string
-    + set_telefono(telefono)
     + get_correo() : string
-    + set_correo(correo)
 }
 
 class Cliente {
@@ -43,17 +54,11 @@ class Cliente {
     - direccion : string
     - telefono : string
     - correo : string
-    + __init__(cedula_cliente, nombre, direccion, telefono, correo)
     + get_cedula_cliente() : string
-    + set_cedula_cliente(cedula_cliente)
     + get_nombre() : string
-    + set_nombre(nombre)
     + get_direccion() : string
-    + set_direccion(direccion)
     + get_telefono() : string
-    + set_telefono(telefono)
     + get_correo() : string
-    + set_correo(correo)
 }
 
 class Orden {
@@ -61,19 +66,18 @@ class Orden {
     - cedula_cliente : string
     - fecha : date
     - total : float
-    + __init__(id_orden, cedula_cliente, fecha, total)
     + get_id_orden() : int
-    + set_id_orden(id_orden)
     + get_cedula_cliente() : string
-    + set_cedula_cliente(cedula_cliente)
     + get_fecha() : date
-    + set_fecha(fecha)
     + get_total() : float
-    + set_total(total)
 }
+Administrador "1" --> Producto : Agregar/Eliminar
+Administrador "1" --> Proveedor:Agregar/Eliminar
+Administrador "1" --> Cliente:Agregar/Eliminar
 
 Producto "1" *-- "0..*" Orden : contiene
 Proveedor "1" *-- "0..*" Orden : suministra
 Cliente "1" *-- "0..*" Orden : realiza
+Local "1"-->"...*" Administrador : Puede tener
 
 @enduml

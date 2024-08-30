@@ -1,0 +1,33 @@
+@startuml Completo
+actor Administrador as admin
+actor Cliente as client
+
+participant Local as local
+participant Producto as producto
+participant Proveedor as proveedor
+participant Orden as orden
+
+admin -> local : VerificarAcceso()
+local -> admin : AccesoPermitido()
+
+admin -> producto : AgregarProducto()
+producto -> proveedor : SolicitarProducto()
+
+alt Producto disponible
+    proveedor --> producto : ConfirmarSuministro()
+else Producto no disponible
+    proveedor --> admin : NotificarProductoNoDisponible()
+end
+
+client -> admin : SolicitarOrden()
+admin -> cliente : VerificarCliente()
+client -> orden : RealizarOrden()
+
+alt Producto en stock
+    producto --> orden : AñadirProducto()
+    orden --> client : ConfirmarOrden()
+else Producto fuera de stock
+    producto --> client : NotificarProductoFueraDeStock()
+end
+
+@enduml
