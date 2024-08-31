@@ -1,4 +1,4 @@
-@startuml
+@startuml GestionInventario
 left to right direction
 
 rectangle "Sistema de Inventario" {

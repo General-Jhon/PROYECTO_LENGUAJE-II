@@ -1,8 +1,8 @@
-@startuml Completo
+@startuml GestionInventario
 actor Administrador as admin
 actor Cliente as client
 
-participant Local as local
+participant Sistema as local
 participant Producto as producto
 participant Proveedor as proveedor
 participant Orden as orden

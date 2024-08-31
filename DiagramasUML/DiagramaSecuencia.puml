@@ -1,7 +1,9 @@
+"""
 @startuml Inventario
-actor Usuario
-Usuario -> SISTEMA : buscar_producto_por_nombre(nombre_producto)
+actor Vendedor
+Vendedor -> SISTEMA : buscar_producto_por_nombre(nombre_producto)
 SISTEMA -> BaseDeDatos : SELECT * FROM producto WHERE nombre = nombre_producto
 BaseDeDatos --> SISTEMA : resultado
-SISTEMA --> Usuario : Producto (datos)
+SISTEMA --> Vendedor : Producto (datos)
 @enduml
+"""
